@@ -15,6 +15,7 @@ httpDebug.color = 5;
 
 const router = express.Router();
 
+//-----------------------------------------------------------------------------
 // router to get limited number of incidents, default to 10 if not specified
 router.get('/', async (req, res) => {
   httpDebug('GET request received at /incident');
@@ -33,13 +34,7 @@ router.get('/', async (req, res) => {
   httpDebug('Response sent for GET request at /incident');
 });
 
-
-
-
-
-
-
-
+//-----------------------------------------------------------------------------
 // router.post to create a new incident
 router.post('/', async (req, res) => {
     httpDebug('POST request received at /incident');
@@ -58,8 +53,44 @@ router.post('/', async (req, res) => {
 
     } catch (error) {
         dbDebug(`Error creating incident: ${error.message}`);
-        res.status(500).send('Internal Server Error');
+        return res.status(500).send('Internal Server Error');
     }
 })
+//-----------------------------------------------------------------------------
+// router to update an specific incident by ID and return the updated incident
+router.put("/:id", async (req, res) => {
+    httpDebug('PUT/update request received at /incident');
+    try {
+        const {error, value} = validateIncident(req.body)
+            if (error) {
+            dbDebug(`Validation error: ${error.details[0].message}`);
+            return res.status(400).send(error.details[0].message);
+        };
+        const singleIncident = await incident.findByIdAndUpdate(req.params.id, value,
+            {
+                new: true
+            }
+        )
+        if(!singleIncident) {
+            return res.status(404).send("The entered incident id is not found")
+        }
+    return res.status(200).json(singleIncident)
+    } catch (error) {
+        dbDebug(`Error updating incident: ${error.message}`);
+        return res.status(500).send('Internal Server Error');
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default router;
