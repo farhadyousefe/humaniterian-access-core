@@ -1,6 +1,6 @@
 import express from 'express';
-import dotenv from 'dotenv';
-dotenv.config({path: "../.env"});
+// import dotenv from 'dotenv';
+// dotenv.config({path: "../.env"});
 import debug from 'debug';
 import { incident, validateIncident } from '../models/incident.js';
 
