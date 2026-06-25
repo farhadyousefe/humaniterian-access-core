@@ -15,10 +15,21 @@ httpDebug.color = 5;
 
 const router = express.Router();
 
+// router to get limited number of incidents, default to 10 if not specified
 router.get('/', async (req, res) => {
   httpDebug('GET request received at /incident');
-  res.write('Incident route is working!');
-  res.end();
+  let limit = parseInt(req.query.limit) || 10; // Default limit to 10 if not provided
+  try {
+      const incidents = await incident.find().sort({ createdAt: -1 }).limit(limit);
+      if(incidents.length === 0) {
+        dbDebug('No incidents found in the database');
+        return res.status(404).send('No incidents found');
+      }
+      res.status(200).json(incidents);
+  } catch (error) {
+      dbDebug(`Error fetching incidents: ${error.message}`);
+      res.status(500).send('Internal Server Error');
+  }
   httpDebug('Response sent for GET request at /incident');
 });
 
