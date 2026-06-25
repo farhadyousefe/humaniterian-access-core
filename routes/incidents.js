@@ -33,6 +33,14 @@ router.get('/', async (req, res) => {
   httpDebug('Response sent for GET request at /incident');
 });
 
+
+
+
+
+
+
+
+// router.post to create a new incident
 router.post('/', async (req, res) => {
     httpDebug('POST request received at /incident');
     const { error, value } = validateIncident(req.body);
