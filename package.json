@@ -1,0 +1,20 @@
+{
+  "name": "humaniterian-access-core",
+  "version": "1.0.0",
+  "description": "a platform to connect to humaniterian deta exchange",
+  "homepage": "https://github.com/farhadyousefe/humaniterian-access-core#readme",
+  "bugs": {
+    "url": "https://github.com/farhadyousefe/humaniterian-access-core/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farhadyousefe/humaniterian-access-core.git"
+  },
+  "license": "ISC",
+  "author": "Farhad Yousefe",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
