@@ -81,7 +81,23 @@ router.put("/:id", async (req, res) => {
     }
 })
 
+//------------------------------------------------------------------------------
 
+// router.detele to Delete the given id incident
+router.delete('/:id', async (req, res) => {
+    httpDebug('Delete request received at /incident');
+    try {
+        const singleIncidentToDelete = await incident.findByIdAndDelete(req.params.id);
+        if(!singleIncidentToDelete) {
+            httpDebug("The incident with the given Id was not found")
+            return res.status(404).send("The given Id is not available")
+        }
+        return res.status(200).json({success: true, message: "Incident deleted successfylly", id: req.params.id})
+    } catch (err) {
+        dbDebug(`Error deleting the incident: ${err.message}`);
+        return res.status(500).send('Internal Server Error');
+    }
+})
 
 
 
