@@ -1,0 +1,46 @@
+import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config({path: "../.env"});
+import debug from 'debug';
+import { incident, validateIncident } from '../models/incident.js';
+
+//2. Initialize debuggers (namespaced for modular logging)
+const dbDebug = debug('app:db');
+const appDebug = debug('app:startup');
+const httpDebug = debug('app:http'); // lowercase helps
+// select debug color manually
+dbDebug.color = 2;
+appDebug.color = 3;
+httpDebug.color = 5;
+
+const router = express.Router();
+
+router.get('/', async (req, res) => {
+  httpDebug('GET request received at /incident');
+  res.write('Incident route is working!');
+  res.end();
+  httpDebug('Response sent for GET request at /incident');
+});
+
+router.post('/', async (req, res) => {
+    httpDebug('POST request received at /incident');
+    const { error, value } = validateIncident(req.body);
+    if (error) {
+        dbDebug(`Validation error: ${error.details[0].message}`);
+        return res.status(400).send(error.details[0].message);
+    };
+
+     let newIncident = new incident(value);
+    try {
+        newIncident = await newIncident.save();
+        dbDebug(`New incident created with ID: ${newIncident._id}`);
+        res.status(201).send(newIncident);
+        httpDebug('Response sent for POST request at /incident');
+
+    } catch (error) {
+        dbDebug(`Error creating incident: ${error.message}`);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+export default router;
