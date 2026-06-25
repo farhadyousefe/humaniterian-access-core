@@ -17,7 +17,7 @@ const incidentSchema = new mongoose.Schema(
     category: {
         type: String,
         required: true,
-        enum: ['bureaucratic', 'infrastructure', 'security', 'natuaral-disaster', 'other'],
+        enum: ['bureaucratic', 'infrastructure', 'security', 'natural-disaster', 'other'],
         default: 'security'
     },
     impactLevel: {
@@ -55,17 +55,17 @@ function validateIncident(incident) {
     const schema = Joi.object({
         title: Joi.string().max(100).required(),
         description: Joi.string().required(),
-        category: Joi.string().valid('bureaucratic', 'infrastructure', 'security', 'natuaral-disaster', 'other').required(),
+        category: Joi.string().valid('bureaucratic', 'infrastructure', 'security', 'natural-disaster', 'other').required(),
         impactLevel: Joi.string().valid('low', 'medium', 'high', 'critical').required(),
         location: Joi.object({
             province: Joi.string().required(),
             district: Joi.string().required(),
             coordinates: Joi.object({
-                lat: Joi.number().default(null),
-                lng: Joi.number().default(null)
+                lat: Joi.number(),
+                lng: Joi.number()
             })
         }).required(),
-        reportedBy: Joi.string().required().default('IOM-Field-Office'),
+        reportedBy: Joi.string().default('IOM-Field-Office'),
         status: Joi.string().valid('active', 'resolved', 'investigating', 'closed').required()
     });
 
