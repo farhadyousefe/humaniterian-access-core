@@ -1,7 +1,7 @@
 {
   "name": "humaniterian-access-core",
   "version": "1.0.0",
-  "description": "a platform to connect to humaniterian deta exchange",
+  "description": "A platform to interface with the Humanitarian Data Exchange (HDX)",
   "homepage": "https://github.com/farhadyousefe/humaniterian-access-core#readme",
   "bugs": {
     "url": "https://github.com/farhadyousefe/humaniterian-access-core/issues"
@@ -14,14 +14,18 @@
   "author": "Farhad Yousefe",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js"
+},
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "joi": "^18.2.3",
     "mongoose": "^9.7.2"
   },
   "devDependencies": {
-    "debug": "^4.4.3"
+    "debug": "^4.4.3",
+    "nodemon": "^3.1.14"
   }
 }
