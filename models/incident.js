@@ -51,6 +51,8 @@ const incidentSchema = new mongoose.Schema(
         timestamps: true // This will automatically add createdAt and updatedAt fields
     });
 
+const incident = mongoose.model('Incident', incidentSchema);
+
 function validateIncident(incident) {
     const schema = Joi.object({
         title: Joi.string().max(100).required(),
@@ -72,4 +74,4 @@ function validateIncident(incident) {
     return schema.validate(incident);
 }
 
-export { incidentSchema, validateIncident };
+export { incident, validateIncident };
